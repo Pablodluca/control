@@ -238,7 +238,7 @@
 
     <footer>
       <p>¿Necesitas ayuda? Contáctanos:</p>
-      <p><strong>pablodeluca214@gmail.com</strong></p>
+      <p><strong>dress318@gmail.com</strong></p>
     </footer>
   </div>
 
@@ -319,10 +319,9 @@
         comentarios += "\n\n[Foto adjunta en base64 - ver en EmailJS]";
       }
 
-      // Corrección: Usar el formato correcto para EmailJS
       const templateParams = {
         from_name: "Controles Remotos Express",
-        to_email: "pablodeluca214@gmail.com",
+        to_email: "dress318@gmail.com", // Cambiado a tu nuevo email
         nombre: nombre,
         apellido: apellido,
         email: document.getElementById("email").value.trim() || "No proporcionado",
@@ -336,14 +335,12 @@
         precio: "$20.000"
       };
 
-      console.log("Enviando datos a EmailJS:", templateParams); // Para depurar
-
       // Usar los valores correctos de EmailJS
       emailjs.send("service_9vr6zf9", "template_7qokobp", templateParams)
         .then(function(response) {
           console.log("Éxito:", response.status, response.text);
           statusDiv.className = "status success";
-          statusDiv.innerHTML = '<span class="icon">✅</span> ¡Pedido enviado! Revisa pablodeluca214@gmail.com para confirmar.';
+          statusDiv.innerHTML = '<span class="icon">✅</span> ¡Pedido enviado! Revisa dress318@gmail.com para confirmar.';
           document.getElementById("hint").textContent = "¡Gracias por tu compra!";
           submitBtn.style.display = "none";
         }, function(error) {
