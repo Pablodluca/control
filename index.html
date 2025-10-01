@@ -7,7 +7,7 @@
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script type="text/javascript">
     (function(){
-      emailjs.init("4eZ9TQHEEIvaP5nyd"); // TU PUBLIC KEY DE EMAILJS
+      emailjs.init("4eZ9TQHEEivaP5nyd"); // TU PUBLIC KEY DE EMAILJS
     })();
   </script>
   <style>
@@ -320,6 +320,8 @@
       }
 
       const templateParams = {
+        from_name: "Controles Remotos Express",
+        to_email: "pablodeluca214@gmail.com",
         nombre,
         apellido,
         email: document.getElementById("email").value.trim() || "No proporcionado",
@@ -333,7 +335,8 @@
         precio: "$20.000"
       };
 
-      emailjs.send("service_rdm2kd1", "template_7qokobp", templateParams)
+      // Usar los valores correctos de EmailJS
+      emailjs.send("service_9vr6zf9", "template_7qokobp", templateParams)
         .then(() => {
           statusDiv.className = "status success";
           statusDiv.innerHTML = '<span class="icon">✅</span> ¡Pedido enviado! Revisa pablodeluca214@gmail.com para confirmar.';
