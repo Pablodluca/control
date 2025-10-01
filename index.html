@@ -319,15 +319,16 @@
         comentarios += "\n\n[Foto adjunta en base64 - ver en EmailJS]";
       }
 
+      // Corrección: Usar el formato correcto para EmailJS
       const templateParams = {
         from_name: "Controles Remotos Express",
         to_email: "pablodeluca214@gmail.com",
-        nombre,
-        apellido,
+        nombre: nombre,
+        apellido: apellido,
         email: document.getElementById("email").value.trim() || "No proporcionado",
         modelo: modelo || "No especificado (foto adjunta)",
-        localidad,
-        direccion,
+        localidad: localidad,
+        direccion: direccion,
         pilas: document.getElementById("pilas").checked ? "SÍ (+$4000)" : "No",
         garantia: document.getElementById("garantia").checked ? "SÍ (+$1500)" : "No",
         comentarios: comentarios || "Sin comentarios",
@@ -335,15 +336,17 @@
         precio: "$20.000"
       };
 
+      console.log("Enviando datos a EmailJS:", templateParams); // Para depurar
+
       // Usar los valores correctos de EmailJS
       emailjs.send("service_9vr6zf9", "template_7qokobp", templateParams)
-        .then(() => {
+        .then(function(response) {
+          console.log("Éxito:", response.status, response.text);
           statusDiv.className = "status success";
           statusDiv.innerHTML = '<span class="icon">✅</span> ¡Pedido enviado! Revisa pablodeluca214@gmail.com para confirmar.';
           document.getElementById("hint").textContent = "¡Gracias por tu compra!";
           submitBtn.style.display = "none";
-        })
-        .catch((error) => {
+        }, function(error) {
           console.error("Error:", error);
           statusDiv.className = "status warning";
           statusDiv.innerHTML = '<span class="icon">❌</span> Error al enviar. Intenta nuevamente.';
