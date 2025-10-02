@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Controles Remotos Express</title>
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <!-- Usar la última versión del SDK de EmailJS -->
+  <script src="https://cdn.emailjs.com/sdk/2.6.4/email.min.js"></script>
   <script type="text/javascript">
     (function(){
       emailjs.init("4eZ9TQHEEivaP5nyd"); // TU PUBLIC KEY DE EMAILJS
@@ -239,16 +240,12 @@
       
       <div class="controls-grid">
         <div class="control-card">
-          <div class="control-icon tv-icon">
-            <i class="fas fa-tv"></i>
-          </div>
+          <div class="control-icon tv-icon">📺</div>
           <h3>TV</h3>
           <p>Controles para televisores de todas las marcas</p>
         </div>
         <div class="control-card">
-          <div class="control-icon ac-icon">
-            <i class="fas fa-fan"></i>
-          </div>
+          <div class="control-icon ac-icon">❄️</div>
           <h3>Aire Acondicionado</h3>
           <p>Controles para sistemas de climatización</p>
         </div>
@@ -338,7 +335,6 @@
     </footer>
   </div>
 
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <script>
     function toggleInput(tipo) {
       if (tipo === 'modelo') {
