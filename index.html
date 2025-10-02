@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Controles Remotos Express</title>
-  <!-- Usar la última versión del SDK de EmailJS -->
   <script src="https://cdn.emailjs.com/sdk/2.6.4/email.min.js"></script>
   <script type="text/javascript">
     (function(){
@@ -39,7 +38,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%230ea5e9"/><path d="M0,50 Q25,20 50,50 T100,50" stroke="%230284c7" stroke-width="2" fill="none"/><path d="M0,30 Q25,10 50,30 T100,30" stroke="%230284c7" stroke-width="2" fill="none"/><path d="M0,70 Q25,90 50,70 T100,70" stroke="%230284c7" stroke-width="2" fill="none"/></svg>');
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%230ea5e9"/><path d="M0,50 Q20,60 50,50 Q80,40 100,50 Q80,80 50,80 Q20,80 0,50 Z" fill="%23fff" opacity="0.15"/></svg>');
       opacity: 0.1;
       z-index: 0;
     }
@@ -237,7 +236,6 @@
     <div class="controls-section">
       <h2 class="section-title">Tipos de Controles Remotos</h2>
       <p class="card-desc">Selecciona el tipo de control que necesitas</p>
-      
       <div class="controls-grid">
         <div class="control-card">
           <div class="control-icon tv-icon">📺</div>
@@ -260,7 +258,6 @@
       <input type="text" id="modelo" placeholder="Ej: Samsung BN59-01315A, LG AKB750B, etc." style="margin-top: 12px;" />
 
       <label style="margin-top: 16px;"><input type="radio" name="identificacion" value="foto" onchange="toggleInput('foto')"> No sé el modelo → subir foto</label>
-      
       <div class="photo-upload" id="fotoSection" style="display: none;">
         <p>📸 Sube una foto clara del control remoto (frente y/o dorso)</p>
         <input type="file" id="fotoControl" accept="image/*" onchange="previewFoto(event)" style="margin-top: 12px;" />
@@ -344,6 +341,7 @@
         document.getElementById('modelo').style.display = 'none';
         document.getElementById('fotoSection').style.display = 'block';
       }
+      checkForm();
     }
 
     function previewFoto(event) {
@@ -357,6 +355,7 @@
         };
         reader.readAsDataURL(file);
       }
+      checkForm();
     }
 
     function enviarPedido() {
@@ -381,6 +380,7 @@
 
       if (modeloInput.style.display !== "none" && modeloInput.value.trim()) {
         modelo = modeloInput.value.trim();
+        enviarConDatos(modelo, fotoBase64, nombre, apellido, localidad, direccion);
       } else if (fotoInput.files.length > 0) {
         const file = fotoInput.files[0];
         const reader = new FileReader();
@@ -397,8 +397,6 @@
         statusDiv.innerHTML = '<span class="icon">⚠️</span> Ingresa el modelo o sube una foto del control.';
         return;
       }
-
-      enviarConDatos(modelo, fotoBase64, nombre, apellido, localidad, direccion);
     }
 
     function enviarConDatos(modelo, fotoBase64, nombre, apellido, localidad, direccion) {
@@ -408,9 +406,6 @@
       submitBtn.textContent = "Enviando...";
 
       let comentarios = document.getElementById("comentarios").value.trim();
-      if (fotoBase64) {
-        comentarios += "\n\n[Foto adjunta en base64 - ver en EmailJS]";
-      }
 
       const templateParams = {
         from_name: "Controles Remotos Express",
@@ -425,21 +420,17 @@
         garantia: document.getElementById("garantia").checked ? "SÍ (+$1500)" : "No",
         comentarios: comentarios || "Sin comentarios",
         fecha: new Date().toLocaleDateString("es-ES"),
-        precio: "$20.000"
+        precio: "$20.000",
+        foto: fotoBase64 // Campo para la imagen en base64
       };
 
-      console.log("Enviando datos:", templateParams); // Para debug
-
-      // Usar los valores correctos de EmailJS
-      emailjs.send("service_9vr6zf9", "template_7qokobp", templateParams)
+      emailjs.send("service_9vr6zf9", "template_j7qprln", templateParams)
         .then(function(response) {
-          console.log("Éxito:", response.status, response.text);
           statusDiv.className = "status success";
           statusDiv.innerHTML = '<span class="icon">✅</span> ¡Pedido enviado! Revisa dress318@gmail.com para confirmar.';
           document.getElementById("hint").textContent = "¡Gracias por tu compra!";
           submitBtn.style.display = "none";
         }, function(error) {
-          console.error("Error detallado:", error); // Para debug
           statusDiv.className = "status warning";
           statusDiv.innerHTML = '<span class="icon">❌</span> Error al enviar. Intenta nuevamente. Detalle: ' + (error.message || 'Error desconocido');
           submitBtn.disabled = false;
@@ -453,6 +444,7 @@
     document.getElementById("modelo").addEventListener("input", checkForm);
     document.getElementById("localidad").addEventListener("change", checkForm);
     document.getElementById("direccion").addEventListener("input", checkForm);
+    document.getElementById("fotoControl").addEventListener("change", checkForm);
 
     function checkForm() {
       const nombre = document.getElementById("nombre").value.trim();
